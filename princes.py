@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Twitter bot that tweets random (fake, obvs) drafts of the first line of Two Princes by the Spindoctors"""
+"""Twitter bot that tweets random (fake, obvs) drafts of the first line of Two Princes by the Spin Doctors"""
 
 import pattern.en
 import random
@@ -8,13 +8,19 @@ import sys
 
 
 DOING  = ['here', 'there', 'stand', 'kneel', 'sit', 'are']
-EMOTE  = ['adore', 'love', 'are fond of', 'somewhat like', 'are indifferent to']
+EMOTE  = ['adore', 'love', 'are fond of', 'somewhat like', 'are indifferent to', 'have taken a shine to', 'are sweet on', 
+          'kinda dislike', 'sorta hate']
 SCATS  = ['da', 'dee', 'deep', 'deepa', 'dip', 'dippa', 'dop', 'doopa', 'dub', 'dubba']
-TITLES = ['kings', 'queens', 'princesses', 'dukes', 'duchesses', 'caliphs', 'emirs']
-WHERE  = ['before', 'in front of', 'ahead', 'abreast of', 'aside', 'adjacent to']
+TITLES = ['kings', 'queens', 'princesses', 'dukes', 'duchesses', 'caliphs', 'emirs', 'emperors', 'empresses', 'archdukes',
+          'archduchesses', 'viceroys', 'vicereines', 'marquesses', 'marchionesses', 'counts', 'countesses', 'earls',
+          'viscounts', 'viscountesses', 'barons', 'baronesses', 'ranas', 'ranis', 'sultans', 'sultanas', 'emiras', 'caliphas',
+          'maharajas', 'maharanis', 'padishahs', 'shahs', 'shabanus', 'khagans', 'khanums', 'pharaohs', 'satraps', 'omukamas', 
+          'sarkis', 'maliks', 'almamis', 'mwamis', 'arkhoonds', 'datus', 'holkars', 'hwangjes', 'lakans', 'nawabs', 'nizams',
+          'rachas']
+WHERE  = ['before', 'in front of', 'ahead of', 'abreast of', 'aside', 'adjacent to', 'off to the side of']
 
 
-def generate_scat():
+def generate_scat(l):
    """Return random assortment of scats (?!?!?)"""
 
    scat = ''
@@ -22,7 +28,11 @@ def generate_scat():
       if len(scat):
          scat += ' '
 
-      scat += random.choice(SCATS)
+      next = random.choice(SCATS)
+      if len(l + scat + next) < 140:
+         scat += next
+      else:
+         break
 
    return scat
 
@@ -36,26 +46,34 @@ def init_cap(s):
 def main():
    """Main entry point"""
 
-   lyric = 'Yeaaaaah <NUMBERS> <TITLE> <DOING> <WHERE> you,\n' + \
-           '\t   That\'s what I said now\n'                    + \
-           '<UTITLE>, <TITLE> who <EMOTE> you,\n'              + \
-           '\t   Just go ahead now\n'                          + \
-           '<SCAT>'
+   lyric = ''
 
-   num = random.choice(range(1, 10))
-   num = pattern.en.numerals(num) + ', ' + pattern.en.numerals(num + 1)
+   while len(lyric) == 0 or len(lyric) > 140:
+      if len(lyric) > 140:
+         print '*** Lyric too long, trying again! ***'
 
-   title = random.choice(TITLES)
+      lyric = 'Yeah <NUMBERS> <TITLE> <DOING> <WHERE> you\n'     + \
+              '\tThat\'s what I said now\n'                      + \
+              '<UTITLE>, <TITLE> who <EMOTE> you\n'              + \
+              '\tJust go ahead now\n'
 
-   lyric = lyric.replace('<NUMBERS>', num)                    \
-                .replace('<TITLE>', title)                    \
-                .replace('<DOING>', random.choice(DOING))     \
-                .replace('<WHERE>', random.choice(WHERE))     \
-                .replace('<UTITLE>', init_cap(title))         \
-                .replace('<EMOTE>', random.choice(EMOTE))     \
-                .replace('<SCAT>', init_cap(generate_scat()))
+      num = random.choice(range(1, 10))
+      num = pattern.en.numerals(num) + ', ' + pattern.en.numerals(num + 1)
 
-   print '(' + str(len(lyric)) + ') ' + lyric
+      title = random.choice(TITLES)
+
+      lyric = lyric.replace('<NUMBERS>', num)                    \
+                   .replace('<TITLE>', title)                    \
+                   .replace('<DOING>', random.choice(DOING))     \
+                   .replace('<WHERE>', random.choice(WHERE))     \
+                   .replace('<UTITLE>', init_cap(title))         \
+                   .replace('<EMOTE>', random.choice(EMOTE))
+
+      scat = init_cap(generate_scat(lyric))
+      lyric += scat
+
+      print '(' + str(len(lyric)) + ') ' + lyric
+
 
 if __name__ == '__main__':
    sys.exit(main())
