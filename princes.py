@@ -2,9 +2,11 @@
 
 """Twitter bot that tweets random (fake, obvs) drafts of the first line of Two Princes by the Spin Doctors"""
 
+import keys
 import pattern.en
 import random
 import sys
+import twitter
 
 
 DOING  = ['here', 'there', 'stand', 'kneel', 'sit', 'are']
@@ -73,6 +75,12 @@ def main():
       lyric += scat
 
       print '(' + str(len(lyric)) + ') ' + lyric
+
+   # Connect to Twitter
+   api = twitter.Api(keys.consumer_key, keys.consumer_secret, keys.access_token, keys.access_token_secret)
+
+   # Tweet
+   status = api.PostUpdate(lyric)
 
 
 if __name__ == '__main__':
