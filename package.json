@@ -1,0 +1,18 @@
+{
+  "name": "TwoPrincesDrafts",
+  "version": "2.0.0",
+  "description": "Bluesky bot that posts fake drafts of Two Princes by the Spin Doctors",
+  "main": "bot.js",
+  "repository": "https://github.com/amarriner/TwoPrinces",
+  "author": "Aaron Marriner <amarriner@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "module": "commonjs",
+  "dependencies": {
+    "@atproto/api": "^0.6.20",
+    "cron": "^3.1.0",
+    "dotenv": "^16.3.1",
+    "process": "^0.11.10",
+    "number-to-words": "^1.2.3"
+  }
+}
