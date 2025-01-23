@@ -135,6 +135,6 @@ main();
 //
 // And then do it on a schedule
 //
-const scheduleExpression = '0 * * * *';
+const scheduleExpression = '0 */6 * * *';
 const job = new cron_1.CronJob(scheduleExpression, main);
 job.start();

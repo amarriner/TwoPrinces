@@ -113,7 +113,7 @@ main();
 //
 // And then do it on a schedule
 //
-const scheduleExpression = '0 * * * *';
+const scheduleExpression = '0 */6 * * *';
 const job = new CronJob(scheduleExpression, main);
 
 job.start();
